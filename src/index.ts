@@ -101,14 +101,20 @@ function extractText(payload: unknown): string {
     return String(payload ?? "");
   }
 
-  const record = payload as Record<string, unknown>;
+  const record = payload as any;
+
+  // ✅ Handle Cloudflare simple format
   for (const key of ["response", "result", "text", "output", "answer"]) {
-    const value = record[key];
-    if (typeof value === "string") return value;
+    if (typeof record[key] === "string") return record[key];
   }
 
+  if (record.choices?.[0]?.message?.content) {
+    return record.choices[0].message.content;
+  }
+
+  // ✅ fallback terakhir
   return JSON.stringify(payload);
-}
+  }
 
 function getAllowedOrigin(request: Request, env: Env): string {
   const origin = request.headers.get("Origin") ?? "";
