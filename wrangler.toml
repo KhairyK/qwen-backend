@@ -4,8 +4,3 @@ compatibility_date = "2024-01-01"
 
 [ai]
 binding = "AI"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "ai-chat-db"
-database_id = "6c429cde-0fa5-4d36-bfcc-75148041a545"
