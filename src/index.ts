@@ -12,7 +12,11 @@ type ChatMessage = {
   content: string;
 };
 
-const MODEL = "@cf/qwen/qwen3-30b-a3-b-fp8";
+const MODELS = [
+  "@cf/qwen/qwen3-30b-a3b-fp8",
+  "@cf/qwen/qwen2.5-7b-instruct",
+  "@cf/meta/llama-3-8b-instruct"
+];
 
 const SYSTEM_PROMPT = `
 You are a senior software engineer, programming tutor, and technical assistant.
