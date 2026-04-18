@@ -18,6 +18,22 @@ const MODEL = [
   "@cf/meta/llama-3-8b-instruct"
 ];
 
+async function runAI(env: Env, payload: any) {
+  for (const model of MODEL) {
+    try {
+      console.log("Trying:", model);
+
+      const res = await env.AI.run(model, payload);
+      return res;
+
+    } catch (err) {
+      console.log("Failed:", model, err);
+    }
+  }
+
+  throw new Error("All models failed");
+}
+
 const SYSTEM_PROMPT = `
 You are a senior software engineer, programming tutor, and technical assistant.
 
@@ -190,10 +206,10 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
     return json(request, env, { error: "The last message must be from the user" }, 400);
   }
 
-  const result = await env.AI.run(MODEL, {
+  const result = await runAI(env, {
     messages: buildMessages(messages),
     temperature,
-    max_tokens: 2200,
+    max_tokens: 4200,
   });
 
   const assistant = clampText(
